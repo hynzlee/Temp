@@ -5,12 +5,14 @@ import java.util.Objects;
 
 public class TodoData {
 
+    private String id;
     private String title;
     private String date;
     private int photo;
     private String todo;
 
-    public TodoData(String title, String date, int photo, String todo) {
+    public TodoData(String id,String title, String date, int photo, String todo) {
+        this.id = id;
         this.title = title;
         this.date = date;
         this.photo = photo;
@@ -18,6 +20,7 @@ public class TodoData {
     }
 
     public TodoData(HashMap<String, String> map){
+        id = map.get("id");
         title = map.get("title");
         date = map.get("date");
         todo = map.get("todo");
@@ -53,12 +56,18 @@ public class TodoData {
     public void setTodo(String todo) {
         this.todo = todo;
     }
+
     public HashMap<String, String> getHashMap(){
         HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
         map.put("title", title);
         map.put("date", date);
         map.put("photo", Integer.toString(photo));
         map.put("todo", todo);
         return map;
+    }
+    @Override
+    public String toString(){
+        return title;
     }
 }
