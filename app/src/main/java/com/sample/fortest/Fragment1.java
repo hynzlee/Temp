@@ -25,6 +25,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,8 @@ public class Fragment1 extends Fragment{
     String mCurrentPhotoPath;
     final static int REQUEST_TAKE_PHOTO = 1;
     TextView camera;
-
+    View view;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,20 @@ public class Fragment1 extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_1, container, false);
-
         //todo가 담긴 data 받아오기
+        swipeRefreshLayout = view.findViewById(R.id.tab1_swife);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        readToDo();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+        );
+        return view;
+    }
+    public void readToDo(){
         todo = ((MainActivity)getActivity()).todoArray();
         RecyclerView recyclerView = view.findViewById(R.id.recycler1) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
@@ -65,9 +79,6 @@ public class Fragment1 extends Fragment{
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         TodoAdapter adapter = new TodoAdapter(todo) ;
         recyclerView.setAdapter(adapter) ;
-
-        return view;
     }
-
 
 }
