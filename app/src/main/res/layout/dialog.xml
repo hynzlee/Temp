@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -19,12 +21,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="하루 벌금: "/>
+            android:text="하루 벌금:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="시작 날짜 입력:"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="Guest 등록:"/>
+
 
     </LinearLayout>
     <LinearLayout
@@ -44,6 +52,12 @@
             android:inputType="number"
             android:text="" />
         <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date" />
+        <EditText
             android:id="@+id/guestMail"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -54,9 +68,15 @@
             android:id="@+id/guestList"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:orientation="vertical"/>
-
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:text="추가" />
 
     </LinearLayout>
     <LinearLayout
@@ -68,20 +88,10 @@
             android:id="@+id/guestButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="140dp"
             android:padding="12dp"
             android:textSize="15dp"
             android:text="+" />
-
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:clickable="true"
-            app:srcCompat="@drawable/caminit" />
     </LinearLayout>
-
 
 </LinearLayout>

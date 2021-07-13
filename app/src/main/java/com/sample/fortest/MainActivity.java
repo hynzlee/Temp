@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return tempHash;
     }
+    //여기서부터 현지 임의 DB
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

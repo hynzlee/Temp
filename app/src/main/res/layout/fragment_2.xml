@@ -6,36 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/myRoom"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My Room"
-        android:textSize="20dp"/>
-
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/my_room"/>
 
     <GridView
         android:id="@+id/gridView"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        app:layout_anchor="@+id/myRoom" />
+        android:numColumns="2" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/Fab"
-        android:clickable="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/roomaddBut"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_gravity="bottom|end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/caminit"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
         android:onClick="DialogClick"
-        app:maxImageSize="100dp"/>
+        android:scaleType="center"
+        android:src="@drawable/button1"
+        app:maxImageSize="100dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

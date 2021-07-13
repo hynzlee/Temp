@@ -13,16 +13,12 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/todayDate"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today Date"
-        android:textSize="20dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/today_list"/>
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="15dp"
         android:id="@+id/recycler1"
         android:scrollbars="vertical"

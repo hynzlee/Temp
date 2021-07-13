@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Fragment2 extends Fragment {
-    FloatingActionButton fab;
+    ImageButton button;
     Dialog dialog;
     View view;
     String gusetName= "";
@@ -39,8 +40,8 @@ public class Fragment2 extends Fragment {
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog);
 
-        fab = view.findViewById(R.id.Fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        button = view.findViewById(R.id.roomaddBut);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog(); // 아래 showDialog01() 함수 호출
