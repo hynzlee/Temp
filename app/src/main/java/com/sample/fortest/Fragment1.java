@@ -63,7 +63,7 @@ public class Fragment1 extends Fragment{
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_1, container, false);
         //todo가 담긴 data 받아오기
-        swipeRefreshLayout = view.findViewById(R.id.tab1_swife);
+        swipeRefreshLayout = view.findViewById(R.id.tab1_swipe);
         recyclerView = view.findViewById(R.id.recycler1) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
         todo = new ArrayList<HashMap<String, String>>();
