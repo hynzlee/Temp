@@ -76,7 +76,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
         private final TextView textView;
         private TextView editText;
         private ImageButton imageEditButton;
-        private Button  textEditButton;
+        private ImageButton  textEditButton;
 
 
 
@@ -86,7 +86,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
             this.textView = (TextView) view.findViewById(R.id.tdTitle);
             this.editText = (TextView) view.findViewById(R.id.tdEdit);
             this.imageEditButton = (ImageButton) view.findViewById(R.id.imgButton);
-            this.textEditButton = (Button) view.findViewById(R.id.button1_2);
+            this.textEditButton = (ImageButton) view.findViewById(R.id.button1_2);
         }
 
 
@@ -99,7 +99,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
 
         public ImageButton getImageButton() {return imageEditButton; }
 
-        public Button getTextEditButton() {return textEditButton; };
+        public ImageButton getTextEditButton() {return textEditButton; };
 
 
     }

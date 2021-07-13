@@ -10,10 +10,8 @@
 
     <ImageButton
         android:id="@+id/imgButton"
-        android:clickable="true"
         android:visibility="visible"
-        android:text="+"
-        android:textSize="12dp"
+        android:src="@drawable/button1"
         android:layout_width="140dp"
         android:layout_height="140dp"/>
     <TextView
@@ -35,12 +33,11 @@
         android:layout_height="45dp"
         android:text="ToDo를 입력하세요"
         android:textSize="15dp" />
-    <Button
+    <ImageButton
         android:id="@+id/button1_2"
-        android:text="저장"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="100dp"
-        android:textSize="13dp"/>
+        android:src="@drawable/edit"/>
 </FrameLayout>

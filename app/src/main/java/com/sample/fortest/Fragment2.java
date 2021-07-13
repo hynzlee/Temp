@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,12 +36,18 @@ public class Fragment2 extends Fragment {
     DateUtil dateUtil;
     ArrayList<String> guestList;
     ArrayList<HashMap<String, String>> room;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_2, container, false);
-         room = ((MainActivity)getActivity()).getMachIDtoRoomList();
+
+        swipeRefreshLayout = view.findViewById(R.id.tab2_swipe);
+
+
+        room = ((MainActivity)getActivity()).getMachIDtoRoomList();
 
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog);
@@ -53,6 +60,14 @@ public class Fragment2 extends Fragment {
             }
         });
         refresh();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refresh();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        );
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
 

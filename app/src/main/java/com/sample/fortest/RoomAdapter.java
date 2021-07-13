@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,12 +23,13 @@ public class RoomAdapter extends ArrayAdapter {
     private List list;
 
     class ViewHolder {
+        public ImageButton iv_image;
+        public Button button;
         public ImageView iv_image1;
         public ImageView iv_image2;
         public ImageView iv_image3;
         public ImageView iv_image4;
         public TextView tv_1;
-        public TextView tv_2;
     }
 
     public RoomAdapter(Context context, ArrayList list) {
@@ -45,8 +48,9 @@ public class RoomAdapter extends ArrayAdapter {
 
         viewHolder = new RoomAdapter.ViewHolder();
         //viewHolder.tv_name = (TextView) convertView.findViewById(R.id.textView_name);
-        viewHolder.tv_1 = (TextView) convertView.findViewById(R.id.roomName);
 
+        viewHolder.tv_1 = (TextView) convertView.findViewById(R.id.roomName);
+        viewHolder.iv_image = (ImageButton) convertView.findViewById(R.id.groupImage);
         viewHolder.iv_image1 = (ImageView) convertView.findViewById(R.id.user1);
         viewHolder.iv_image2 = (ImageView) convertView.findViewById(R.id.user2);
         viewHolder.iv_image3 = (ImageView) convertView.findViewById(R.id.user3);

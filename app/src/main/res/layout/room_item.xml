@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:gravity="center_vertical">
+    android:layout_width="180dp"
+    android:layout_height="180dp">
 
-    <LinearLayout
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:gravity = "center"/>
+    <ImageButton
+        android:id="@+id/groupImage"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:background="#FAFAFA"
+        android:src="@drawable/my_room_group">
 
-        <com.sample.fortest.RoundImageView
-            android:id="@+id/user1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerInside"
-            android:src = "@drawable/white"/>
+    </ImageButton>
 
-        <com.sample.fortest.RoundImageView
-            android:id="@+id/user2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/white" />
+    <com.sample.fortest.RoundImageView
+        android:id="@+id/user1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="45dp"
+        android:scaleType="centerInside"
+        android:src = "@drawable/white"/>
 
-        <com.sample.fortest.RoundImageView
-            android:id="@+id/user3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="80dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/white" />
+    <com.sample.fortest.RoundImageView
+        android:id="@+id/user2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="45dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/white" />
 
-        <com.sample.fortest.RoundImageView
-            android:id="@+id/user4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="80dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/white" />
+    <com.sample.fortest.RoundImageView
+        android:id="@+id/user3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="100dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/white" />
 
-        <TextView
-            android:id="@+id/roomName"
-            android:layout_marginTop="160dp"
-            android:layout_marginLeft="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Room name"/>
+    <com.sample.fortest.RoundImageView
+        android:id="@+id/user4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="100dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/white" />
 
+    <TextView
+        android:id="@+id/roomName"
+        android:layout_marginTop="160dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Room name"/>
 </FrameLayout>
