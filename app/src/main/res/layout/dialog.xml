@@ -41,27 +41,34 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/edit_roomName"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="12dp"
+            android:hint="다이어트"
             android:text="" />
         <EditText
+            android:id="@+id/edit_fine"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:inputType="number"
+            android:hint="1000"
             android:text="" />
         <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="match_parent"
+            android:id="@+id/edit_textDate"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
+            android:inputType="date"
+            android:padding="12dp"
+            android:maxLength="6"
+            android:hint="210714" />
         <EditText
             android:id="@+id/guestMail"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:padding="12dp"
+            android:hint="h@naver.com"
             android:text="" />
 
         <TextView
