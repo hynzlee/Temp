@@ -230,8 +230,12 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<HashMap<String, String>> getMachIDtoRoomList() {
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
-        for(int i =0 ;i< machIDtoRoomList.size();i++){
-            tempHash.add(machIDtoRoomList.get(i).getHashMap());
+        try {
+            for (int i = 0; i < machIDtoRoomList.size(); i++) {
+                tempHash.add(machIDtoRoomList.get(i).getHashMap());
+            }
+        }catch(NullPointerException e){
+            Toast.makeText(context, "새로운 방을 만들어주세요~", Toast.LENGTH_LONG).show();
         }
         return tempHash;
     }
