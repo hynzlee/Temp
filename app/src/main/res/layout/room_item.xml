@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:gravity = "center"/>
+
+        <com.sample.fortest.RoundImageView
+            android:id="@+id/user1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="centerInside"
+            android:src = "@drawable/customer"/>
+
+        <com.sample.fortest.RoundImageView
+            android:id="@+id/user2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/customer" />
+
+        <com.sample.fortest.RoundImageView
+            android:id="@+id/user3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="70dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/customer" />
+
+        <com.sample.fortest.RoundImageView
+            android:id="@+id/user4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="70dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/customer" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"/>
+
+        <TextView
+            android:id="@+id/roomName"
+            android:layout_marginTop="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Room name"/>
+
+        <TextView
+            android:id="@+id/roomTerm"
+            android:layout_marginTop="160dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Term"/>
+</FrameLayout>

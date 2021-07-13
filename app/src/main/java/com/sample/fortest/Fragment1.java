@@ -57,9 +57,9 @@ public class Fragment1 extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_1, container, false);
+        view = inflater.inflate(R.layout.fragment_1, container, false);
         //todo가 담긴 data 받아오기
-        swipeRefreshLayout = view.findViewById(R.id.tab1_swife);
+        swipeRefreshLayout = view.findViewById(R.id.tab1_swipe);
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
