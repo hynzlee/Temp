@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
     String bitmapString;
     BitmapConverter bitmapConverter;
     int itemPosition;
-    Fragment fragment1;
+    Fragment1 fragment1;
+    Fragment2 fragment2;
+    Fragment3 fragment3;
 
     Context context;
     IDListData ID;
@@ -97,6 +99,29 @@ public class MainActivity extends AppCompatActivity {
         //Glide.with(this).load(strProfile).into(ivProfile);
 
     }
+
+
+    public void GetRoomData(HashMap<String,String> map){
+        Call<Void> call = retrofitInterface.executeMakeRoom(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    //로그인 성공시 할짓
+                    fragment2.showDialog();
+                } else if (response.code() == 404) {
+                    //화면 종료
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
     public void GetRoomData(){
         HashMap<String,String> map =  new HashMap<String,String>();
         map.put("id", strEmail);
@@ -186,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void MakeRetrofit(){
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -207,12 +233,14 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
             if (id == R.id.navigation_1) {
-                fragment = new Fragment1();
-                fragment1 = fragment;
+                fragment1 = new Fragment1();
+                fragment = fragment1;
             } else if (id == R.id.navigation_2){
-                fragment = new Fragment2();
+                fragment2 = new Fragment2();
+                fragment = fragment2;
             } else if (id == R.id.navigation_3) {
-                fragment = new Fragment3();
+                fragment3 = new Fragment3();
+                fragment = fragment3;
             }
             fragmentTransaction.add(R.id.content_layout, fragment, tag);
         } else {
@@ -239,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
         return tempHash;
     }
+
 
     public ArrayList<HashMap<String, String>> getMachIDtoRoomList() {
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
@@ -279,5 +308,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void setToDo(ArrayList<HashMap<String, String>> todo) {
         this.todo = todo;
+    }
+
+    // endDay, id를 더 넣어줘야함
+    public void setRoom(HashMap<String, String> hash) {
+        hash.put("id",strEmail);
+        hash.put("endDay","25.20.20");
+        GetRoomData(hash);
     }
 }

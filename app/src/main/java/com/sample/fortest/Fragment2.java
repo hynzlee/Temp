@@ -28,15 +28,13 @@ public class Fragment2 extends Fragment {
     Dialog dialog;
     View view;
     String gusetName= "";
+    ArrayList<HashMap<String, String>> room;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_2, container, false);
-        ArrayList<HashMap<String, String>> room = ((MainActivity)getActivity()).getMachIDtoRoomList();
-
-        GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+         room = ((MainActivity)getActivity()).getMachIDtoRoomList();
 
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog);
@@ -48,12 +46,18 @@ public class Fragment2 extends Fragment {
                 showDialog(); // 아래 showDialog01() 함수 호출
             }
         });
-
+        refresh();
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
-        gridView.setAdapter(adapter) ;
 
         return view;
+    }
+
+    public void refresh(){
+
+        GridView gridView = (GridView) view.findViewById(R.id.gridView);
+        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+        gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){
         String st = "";
@@ -65,20 +69,16 @@ public class Fragment2 extends Fragment {
     public void showDialog(){
         dialog.show(); // 다이얼로그 띄우기
 
-
-
-
         /* 이 함수 안에 원하는 디자인과 기능을 구현하면 된다. */
         // *주의할 점: findViewById()를 쓸 때는 -> 앞에 반드시 다이얼로그 이름을 붙여야 한다.
 
         ArrayList<HashMap<String, String>> array = ((MainActivity)getActivity()).idListArray();
         ArrayList<String> guestList = new ArrayList<>();
         gusetName = "";
-
-
         //mail 버튼
         EditText editText = dialog.findViewById(R.id.guestMail);
         Button gBtn = dialog.findViewById(R.id.guestButton);
+        Button addBtn = dialog.findViewById(R.id.addButton);
         TextView tx = dialog.findViewById(R.id.guestList);
         gBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,7 @@ public class Fragment2 extends Fragment {
                 // 원하는 기능 구현
                 String input = editText.getText().toString().replace(" ", "");
                 boolean inData = false;
-                if(!guestList.contains(input)) {
+                if (!guestList.contains(input)) {
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).get("id").equals(input)) {
                             guestList.add(input);
@@ -97,8 +97,23 @@ public class Fragment2 extends Fragment {
                         }
                     }
                 }
+            }
+        });
 
-
+        addBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // 원하는 기능 구현
+                HashMap<String, String> hash = new HashMap<String, String>();
+                hash.put("roomName", String.valueOf(editText.getText()));
+                for(int i = 0; i < guestList.size();i++) {
+                    String guestindex = "guests" + String.valueOf(i+1);
+                    hash.put(guestindex,guestList.get(i));
+                }
+                hash.put("fine", String.valueOf(editText.getText()));
+                hash.put("startDay", String.valueOf(editText.getText()));
+                //endTime, endDay,id를 더 넣어줘야함
+                ((MainActivity)getActivity()).setRoom(hash);
             }
         });
     }
