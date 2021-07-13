@@ -222,9 +222,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public ArrayList<HashMap<String, String>> idListArray(){
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
-        for(int i =0 ;i< IdLists.size();i++){
-            tempHash.add(IdLists.get(i).getHashMap());
+        try {
+            for(int i =0 ;i< IdLists.size();i++){
+                tempHash.add(IdLists.get(i).getHashMap());
+            }
+        }catch(NullPointerException e){
+            Toast.makeText(context, "새로운 방을 만들어주세요~", Toast.LENGTH_LONG).show();
         }
+
         return tempHash;
     }
 
