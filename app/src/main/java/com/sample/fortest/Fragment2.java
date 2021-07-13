@@ -78,6 +78,9 @@ public class Fragment2 extends Fragment {
         gusetName = "";
         //mail 버튼
         EditText editText = dialog.findViewById(R.id.guestMail);
+        EditText roomName = dialog.findViewById(R.id.roomName);
+        EditText fine = dialog.findViewById(R.id.fine);
+        EditText date = dialog.findViewById(R.id.editTextDate);
         Button gBtn = dialog.findViewById(R.id.guestButton);
         Button addBtn = dialog.findViewById(R.id.addButton);
         TextView tx = dialog.findViewById(R.id.guestList);
@@ -106,13 +109,15 @@ public class Fragment2 extends Fragment {
             public void onClick(View view) {
                 // 원하는 기능 구현
                 HashMap<String, String> hash = new HashMap<String, String>();
-                hash.put("roomName", String.valueOf(editText.getText()));
+                hash.put("roomName", String.valueOf(roomName.getText()));
                 for(int i = 0; i < guestList.size();i++) {
                     String guestindex = "guests" + String.valueOf(i+1);
                     hash.put(guestindex,guestList.get(i));
                 }
-                hash.put("fine", String.valueOf(editText.getText()));
-                hash.put("startDay", String.valueOf(editText.getText()));
+                hash.put("fine", String.valueOf(fine.getText()));
+                //데이트 바꿔주는 작업
+                String datestring = String.valueOf(date.getText()).insert(4,".").insert(2,".");
+                hash.put("startDay", datestring);
                 //endTime, endDay,id를 더 넣어줘야함
                 ((MainActivity)getActivity()).setRoom(hash);
             }
