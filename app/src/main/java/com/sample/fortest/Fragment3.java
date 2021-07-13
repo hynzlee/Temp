@@ -43,10 +43,14 @@ public class Fragment3 extends Fragment {
         }
         recyclerView = view.findViewById(R.id.recycler3) ;
         dayAdapter = new DayAdapter(day);
-        MainActivity ma =  ((MainActivity)getActivity());
-        dayAdapter.setActivity(ma);
         recyclerView.setAdapter(dayAdapter) ;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        if(!dayAdapter.getClickDay().equals("")){
+            Toast.makeText(getContext(), dayAdapter.getClickDay(), Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(), "no input", Toast.LENGTH_SHORT).show();
+        }
         /*
         intent = getActivity().getIntent();// 인텐트 받아오기
         clickDay = intent.getStringExtra("date"); //Adapter에서 받은 키값 연결

@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import com.sample.fortest.DateUtil;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     private ArrayList<HashMap<String, String>> arrayList;
     private String[] localDataSet;
-    private String clickDay;
+    public String clickDay ="";
     private Context context;
     private MainActivity mainActivity;
 
@@ -79,20 +84,11 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 String input = viewHolder.getButton().getText().toString();
                 int inputDateInt = Integer.parseInt(input.substring(3));
                 String startDay = room.get(0).get("startDay");
-                clickDay = null;
                 try {
                     clickDay = DateUtil.addDate(startDay,0,0,inputDateInt-1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //ViewHolder.
-                /*
-                Intent intent;
-                intent = new Intent(context, MainActivity.class);
-                intent.putExtra("date", clickDay);
-                context.startActivity(intent);*/
-
-
                 //Toast.makeText(v.getContext(), clickDay, Toast.LENGTH_SHORT).show();
             }
         });
@@ -120,5 +116,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         hash.put("endDay", "21.07.24");
         room.add(hash);
         return room;
+    }
+    public String getClickDay(){
+        return clickDay;
     }
 }
