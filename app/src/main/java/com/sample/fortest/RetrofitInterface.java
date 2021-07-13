@@ -13,7 +13,7 @@ public interface RetrofitInterface {
     Call<Void> executeKakakoLogin (@Body HashMap<String, String> map);
 
     @POST("/findID")
-    Call<Void> executeSignup (@Body HashMap<String, String> map);
+    Call<ArrayList<IDListData>> executeSignup (@Body HashMap<String, String> map);
 
     @POST("/setToDoText")
     Call<Void> executeSetToDo (@Body HashMap<String, String> map);

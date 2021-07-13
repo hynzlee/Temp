@@ -46,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://192.249.18.163:80";
     ArrayList<HashMap<String, String>> todo;
+    //아이디 담겨 있는 List
+    ArrayList<IDListData> IdLists;
     Context context;
+    IDListData ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initial
@@ -73,35 +76,51 @@ public class MainActivity extends AppCompatActivity {
         strNickname = intent.getStringExtra("name");
         strProfile = intent.getStringExtra("profile");
         strEmail = intent.getStringExtra("email");
+        ID =  new IDListData(strNickname,strEmail,strProfile);
         //tvNickname.setText(strNickname);
         //tvEmail.setText(strEmail);
         MakeRetrofit();
         SetLoginData();
         GetTodoData();
+        GetIDListData();
         //프로필 사진 url을 사진으로 보여줌
         //Glide.with(this).load(strProfile).into(ivProfile);
 
     }
     public void SetLoginData() {
-        HashMap<String, String> loginHashMap = new HashMap<>();
-        loginHashMap.put("id", strEmail);
-        loginHashMap.put("name", strNickname);
+        HashMap<String, String> loginHashMap = ID.getHashMap();
         Call<Void> call = retrofitInterface.executeKakakoLogin(loginHashMap);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                //call 다시 오는 내용값 send()에 들어가는 , response status() 안에 들어가는 값
                 if (response.code() == 200) {
                     //로그인 성공시 할짓
-//                    Toast.makeText(context, "로그인 성공", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 404) {
                        //화면 종료
-//                    Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void GetIDListData() {
+        Call<ArrayList<IDListData>> call = retrofitInterface.executeSignup(new HashMap<String,String>());
+        call.enqueue(new Callback<ArrayList<IDListData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<IDListData>> call, Response<ArrayList<IDListData>> response) {
+                if (response.code() == 200) {
+                    //로그인 성공시 할짓
+                    IdLists = response.body();
+                    Log.e("id",IdLists.toString());
+                } else if (response.code() == 404) {
+                    //화면 종료
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<IDListData>> call, Throwable t) {
                 Toast.makeText(context, t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
@@ -174,16 +193,12 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<HashMap<String, String>> todoArray(){
         return todo;
     }
-    public ArrayList<HashMap<String, String>> RoomArray(){
-        ArrayList<HashMap<String, String>> room = new ArrayList<>();
-        /*private String roomName;
-        private String id;
-        private ArrayList<String> guest;
-        private int fine;
-        private ArrayList<String> fines;
-        private String startDay;*/
-        //ArrayList<String> guest = new ArrayList<>();
-        //room.add(new RoomData("다이어트","hji0104@naver.com", guest, 300, fines, "2021.7.9").getHashMap());
-        return room;
+    public ArrayList<HashMap<String, String>> idListArray(){
+        ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
+        for(int i =0 ;i< IdLists.size();i++){
+            tempHash.add(IdLists.get(i).getHashMap());
+        }
+        return tempHash;
     }
+
 }
