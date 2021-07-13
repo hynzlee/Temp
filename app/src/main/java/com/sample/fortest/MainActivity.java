@@ -101,4 +101,16 @@ public class MainActivity extends AppCompatActivity {
         todo.add(new TodoData("공부하기","2021.7.10", 0, "수학의 정석 한 장 풀기").getHashMap());
         return todo;
     }
+    public ArrayList<HashMap<String, String>> RoomArray(){
+        ArrayList<HashMap<String, String>> room = new ArrayList<>();
+        /*private String roomName;
+        private String id;
+        private ArrayList<String> guest;
+        private int fine;
+        private ArrayList<String> fines;
+        private String startDay;*/
+        //ArrayList<String> guest = new ArrayList<>();
+        //room.add(new RoomData("다이어트","hji0104@naver.com", guest, 300, fines, "2021.7.9").getHashMap());
+        return room;
+    }
 }
