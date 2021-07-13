@@ -50,9 +50,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<IDListData> IdLists;
     ArrayList<RoomData> machIDtoRoomList;
 
+    Fragment fragment3;
 
     Context context;
     IDListData ID;
+    public static String ClickDay = "null";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initial
@@ -206,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new Fragment2();
             } else if (id == R.id.navigation_3) {
                 fragment = new Fragment3();
+                fragment3 = fragment;
             }
             fragmentTransaction.add(R.id.content_layout, fragment, tag);
         } else {
@@ -239,5 +242,56 @@ public class MainActivity extends AppCompatActivity {
         }
         return tempHash;
     }
+    //여기서부터 현지 임의 DB
 
+    public ArrayList<HashMap<String, String>> roomtempArray(){
+        ArrayList<HashMap<String, String>> room = new ArrayList<>();
+        HashMap<String, String> hash = new HashMap<>();
+        hash.put("roomName", "다이어트");
+        hash.put("id", "hji0104@naver.com");
+        hash.put("guest1", "hji0103@naver.com");
+        hash.put("guest2", "hji0102@naver.com");
+        hash.put("guest3", "hji0101@naver.com");
+        hash.put("fine", "1");
+        hash.put("totalFine1", "1");
+        hash.put("totalFine2", "1");
+        hash.put("totalFine3", "1");
+        hash.put("totalFine4", "1");
+        hash.put("startDay", "21.07.10");
+        hash.put("endDay", "21.07.23");
+        room.add(hash);
+        return room;
+    }
+    public ArrayList<HashMap<String, String>> idArray(){
+
+        ArrayList<HashMap<String, String>> idArray = new ArrayList<>();
+
+        IDListData id1 = new IDListData("hji0104@naver.com","이현지",Integer.toString(R.drawable.customer) );
+        IDListData id2 = new IDListData("hji0103@naver.com","이현지3",Integer.toString(R.drawable.customer) );
+        IDListData id3 = new IDListData("hji0102@naver.com","이현지2",Integer.toString(R.drawable.customer) );
+        IDListData id4 = new IDListData("hji0101@naver.com","이현지1",Integer.toString(R.drawable.customer) );
+        idArray.add(id1.getHashMap());
+        idArray.add(id2.getHashMap());
+        idArray.add(id3.getHashMap());
+        idArray.add(id4.getHashMap());
+
+        return idArray;
+    }
+    public ArrayList<HashMap<String, String>> todotempArray(){
+
+        ArrayList<HashMap<String, String>> todoArray = new ArrayList<>();
+
+        TodoData td1 = new TodoData("hji0104@naver.com","다이어트","21.07.13",R.drawable.customer,"밥먹" );
+        TodoData td11 = new TodoData("hji0104@naver.com","다이어트","21.07.14",R.drawable.customer,"밥먹기" );
+        TodoData td2 = new TodoData("hji0103@naver.com","다이어트","21.07.14",R.drawable.customer,"내일" );
+        TodoData td3 = new TodoData("hji0102@naver.com","다이어트","21.07.15",R.drawable.customer, "아아아" );
+        TodoData td4 = new TodoData("hji0101@naver.com","다이어트","21.07.18",R.drawable.customer, "으으ㅡ으" );
+        todoArray.add(td1.getHashMap());
+        todoArray.add(td11.getHashMap());
+        todoArray.add(td2.getHashMap());
+        todoArray.add(td3.getHashMap());
+        todoArray.add(td4.getHashMap());
+
+        return todoArray;
+    }
 }

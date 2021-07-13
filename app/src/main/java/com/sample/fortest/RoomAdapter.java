@@ -46,7 +46,6 @@ public class RoomAdapter extends ArrayAdapter {
         viewHolder = new RoomAdapter.ViewHolder();
         //viewHolder.tv_name = (TextView) convertView.findViewById(R.id.textView_name);
         viewHolder.tv_1 = (TextView) convertView.findViewById(R.id.roomName);
-        viewHolder.tv_2 = (TextView) convertView.findViewById(R.id.roomTerm);
 
         viewHolder.iv_image1 = (ImageView) convertView.findViewById(R.id.user1);
         viewHolder.iv_image2 = (ImageView) convertView.findViewById(R.id.user2);

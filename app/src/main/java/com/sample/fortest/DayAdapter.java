@@ -1,6 +1,8 @@
 package com.sample.fortest;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,20 @@ import java.util.HashMap;
 import com.sample.fortest.DateUtil;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
-
+    private ArrayList<HashMap<String, String>> arrayList;
     private String[] localDataSet;
+    private String clickDay;
+    private Context context;
+    private MainActivity mainActivity;
 
-    //roomdata 내가 임의로 만들었당
+    public DayAdapter(ArrayList<HashMap<String, String>> arrayList, Context context) {
+        this.arrayList = arrayList;
+        this.context = context;
+    }
+
+    public void setActivity(MainActivity ma) {
+        mainActivity = ma;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
@@ -67,13 +79,21 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 String input = viewHolder.getButton().getText().toString();
                 int inputDateInt = Integer.parseInt(input.substring(3));
                 String startDay = room.get(0).get("startDay");
-                String clickDay = null;
+                clickDay = null;
                 try {
                     clickDay = DateUtil.addDate(startDay,0,0,inputDateInt-1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(v.getContext(), clickDay, Toast.LENGTH_SHORT).show();
+                //ViewHolder.
+                /*
+                Intent intent;
+                intent = new Intent(context, MainActivity.class);
+                intent.putExtra("date", clickDay);
+                context.startActivity(intent);*/
+
+
+                //Toast.makeText(v.getContext(), clickDay, Toast.LENGTH_SHORT).show();
             }
         });
     }
