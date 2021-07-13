@@ -1,23 +1,20 @@
 package com.sample.fortest;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class IDListData {
 
-    private static String id;
+    private String id;
     private String name;
-    private static int profile;
+    private String photo;
 
 
-    public IDListData(String id, String name, int profile) {
+    public IDListData(String id, String name, String photo) {
         this.id = id;
         this.name = name;
-        this.profile = profile;
+        this.photo = photo;
     }
-    public static String getId() {
+    public String getId() {
         return id;
     }
     public void setId(String id) {
@@ -29,16 +26,14 @@ public class IDListData {
     public void setName(String name) {
         this.name = name;
     }
-    public int getProfile() {
-        return profile;
-    }
-    public void setProfile(int profile) {
-        this.profile = profile;
-    }
+    public String getPhoto() { return photo; }
+    public void setPhoto(String photo) { this.photo = photo; }
+
     public HashMap<String, String> getHashMap(){
         HashMap<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("name", name);
+        map.put("photo", String.valueOf(photo));
         return map;
     }
 
