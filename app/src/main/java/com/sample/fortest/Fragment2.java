@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -21,12 +24,18 @@ import java.util.HashMap;
 public class Fragment2 extends Fragment {
     FloatingActionButton fab;
     Dialog dialog;
+    View view;
+    ArrayList<String> idList;
+    ListView listView;
+    ArrayAdapter arrayAdapter;
+    View diaLogView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_2, container, false);
-
+        view = inflater.inflate(R.layout.fragment_2, container, false);
+        idList = new ArrayList<>();
+        diaLogView =((View)inflater.inflate(R.layout.dialog, container, false));
         //todo가 담긴 data 받아오기
         HashMap<String, String> hash = new HashMap<>();
         hash.put("roomName", "다이어트");
@@ -68,28 +77,41 @@ public class Fragment2 extends Fragment {
     public void showDialog(){
         dialog.show(); // 다이얼로그 띄우기
 
+        idList.add("ss");
+        arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, idList);
+        listView = diaLogView.findViewById(R.id.guestList);
+        listView.setAdapter(arrayAdapter);
         /* 이 함수 안에 원하는 디자인과 기능을 구현하면 된다. */
-
-        // 위젯 연결 방식은 각자 취향대로~
-        // '아래 아니오 버튼'처럼 일반적인 방법대로 연결하면 재사용에 용이하고,
-        // '아래 네 버튼'처럼 바로 연결하면 일회성으로 사용하기 편함.
         // *주의할 점: findViewById()를 쓸 때는 -> 앞에 반드시 다이얼로그 이름을 붙여야 한다.
 
-        // 아니오 버튼
-        Button noBtn = dialog.findViewById(R.id.noBtn);
-        noBtn.setOnClickListener(new View.OnClickListener() {
+        ArrayList<HashMap<String, String>> array = new ArrayList<>();
+        array.add(new IDListData("hji0104@naver.com", "이현지", R.drawable.home).getHashMap());
+        array.add(new IDListData("hji0103@naver.com", "이현지1", R.drawable.date).getHashMap());
+        array.add(new IDListData("hji0102@naver.com", "이현지2", R.drawable.list).getHashMap());
+        array.add(new IDListData("hji0101@naver.com", "이현지3", R.drawable.caminit).getHashMap());
+
+
+
+        //mail 버튼
+        EditText editText = dialog.findViewById(R.id.guestMail);
+        Button gBtn = dialog.findViewById(R.id.guestButton);
+        gBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 원하는 기능 구현
-                dialog.dismiss(); // 다이얼로그 닫기
-            }
-        });
-        // 네 버튼
-        dialog.findViewById(R.id.yesBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 원하는 기능 구현
-                Toast.makeText(getContext(), "hihi", Toast.LENGTH_SHORT).show();
+                String input = editText.getText().toString().replace(" ","");
+                boolean inData = false;
+                for(int i=0;i<array.size();i++){
+                    if(array.get(i).get("id").equals(input)) {
+                        inData = true;
+                        idList.add(input);
+                        Toast.makeText(getContext(), input, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+                if(!inData) {
+                    Toast.makeText(getContext(), "No User", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
