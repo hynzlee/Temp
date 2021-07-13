@@ -46,7 +46,6 @@ public class Fragment2 extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.tab2_swipe);
 
-
         room = ((MainActivity)getActivity()).getMachIDtoRoomList();
 
         dialog = new Dialog(getContext());
@@ -68,6 +67,10 @@ public class Fragment2 extends Fragment {
                 }
             }
         );
+
+
+
+
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
 
@@ -77,7 +80,7 @@ public class Fragment2 extends Fragment {
     public void refresh(){
 
         GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+        RoomAdapter adapter = new RoomAdapter(getContext(), room, ((MainActivity)getActivity()));
         gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){

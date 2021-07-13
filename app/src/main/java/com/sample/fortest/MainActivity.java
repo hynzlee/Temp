@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment1 fragment1;
     Fragment2 fragment2;
     Fragment3 fragment3;
-
+    FragmentManager fragmentManager;
     Context context;
     IDListData ID;
     FragmentTransaction fragmentTransaction;
@@ -227,10 +227,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
+    public void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-         fragmentTransaction = fragmentManager.beginTransaction();
+        if(fragmentManager == null)
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
         if (currentFragment != null) {
@@ -323,4 +324,36 @@ public class MainActivity extends AppCompatActivity {
         hash.put("id",strEmail);
         MakeRoomData(hash);
     }
+    /*
+    public void Fragmentchange(int id, int index){
+        if(fragment3 == null)
+            fragment3 = new Fragment3();
+        //fragment3.setHash(machIDtoRoomList.get(index).getHashMap());
+
+        String tag = String.valueOf(id);
+        if(fragmentManager == null)
+            fragmentManager = getSupportFragmentManager();
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
+        if (currentFragment != null) {
+            fragmentTransaction.hide(currentFragment);
+        }
+
+        Fragment fragment = fragmentManager.findFragmentByTag(tag);
+        if (fragment == null) {
+            if (id == R.id.navigation_3) {
+                fragment3 = new Fragment3();
+                fragment = fragment3;
+            }
+        }
+        fragmentTransaction.setPrimaryNavigationFragment(fragment);
+        fragmentTransaction.setReorderingAllowed(true);
+        fragmentTransaction.commitNow();
+
+
+        fragment3.setHash(machIDtoRoomList.get(index).getHashMap());
+
+    }*/
 }

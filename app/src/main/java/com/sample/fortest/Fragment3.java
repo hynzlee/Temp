@@ -29,6 +29,7 @@ public class Fragment3 extends Fragment {
     ContentAdapter contentAdapter;
     Button button;
     String clickDay;
+    HashMap<String, String> rommHashMap;
 
     private Intent intent;
     @Override
@@ -38,10 +39,10 @@ public class Fragment3 extends Fragment {
         view = inflater.inflate(R.layout.fragment_3, container, false);
 
         //현지 임의 데이
-        ArrayList<HashMap<String, String>> roomArray = roomArray();
-        ArrayList<HashMap<String, String>> todoArray = roomArray();
-        ArrayList<String> emailArray = new ArrayList<>();
-        HashMap<String, String> hash = roomArray.get(0);
+        //ArrayList<HashMap<String, String>> roomArray = roomArray();
+        //ArrayList<HashMap<String, String>> todoArray = roomArray();
+        //ArrayList<String> emailArray = new ArrayList<>();
+        //HashMap<String, String> hash = roomArray.get(0);
 
         CalendarView  calendar = (CalendarView) view.findViewById(R.id.calendarView);
         /*
@@ -78,33 +79,8 @@ public class Fragment3 extends Fragment {
 
         return view;
     }
-    public ArrayList<HashMap<String, String>> roomArray(){
-        ArrayList<HashMap<String, String>> array = new ArrayList<>();
-        HashMap<String, String> hash = new HashMap<>();
-        hash.put("id","hji0104@naver.com");
-        hash.put("guest1","hji0101@naver.com");
-        hash.put("guest2","hji0102@naver.com");
-        hash.put("guest3","hji0103@naver.com");
-        hash.put("fine","300");
-        hash.put("startDay","21.07.14");
-        hash.put("endDay","21.07.27");
-        array.add(hash);
-        return array;
-    }
-    public ArrayList<HashMap<String, String>> todoArray(){
-        ArrayList<HashMap<String, String>> array = new ArrayList<>();
-        HashMap<String, String> hash1 = new TodoData("hji0104@naver.com","다이어트","21.07.16",Integer.toString(R.drawable.list),"hihi").getHashMap();
-        HashMap<String, String> hash2 = new TodoData("hji0103@naver.com","다이어트","21.07.16",null,"hello").getHashMap();
-
-        HashMap<String, String> hash3 = new TodoData("hji0102@naver.com","다이어트","21.07.16",Integer.toString(R.drawable.list),"hoho").getHashMap();
-        HashMap<String, String> hash4 = new TodoData("hji0104@naver.com","다이어트","21.07.18",Integer.toString(R.drawable.list),"h").getHashMap();
-
-        array.add(hash1);
-        array.add(hash2);
-
-        array.add(hash3);
-        array.add(hash4);
-        return array;
+    public void setHash(HashMap<String, String> map){
+        this.rommHashMap = map;
     }
 
 }
