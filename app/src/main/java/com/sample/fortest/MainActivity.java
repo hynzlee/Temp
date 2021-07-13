@@ -49,16 +49,22 @@ public class MainActivity extends AppCompatActivity {
     //아이디 담겨 있는 List
     ArrayList<IDListData> IdLists;
     ArrayList<RoomData> machIDtoRoomList;
-
-    Fragment fragment3;
+    int REQUEST_IMAGE_CAPTURE = 1;
+    String bitmapString;
+    BitmapConverter bitmapConverter;
+    int itemPosition;
+    Fragment1 fragment1;
+    Fragment2 fragment2;
+    Fragment3 fragment3;
 
     Context context;
     IDListData ID;
-    public static String ClickDay = "null";
+    FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initial
         super.onCreate(savedInstanceState);
+        bitmapConverter = new BitmapConverter();
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         todo = new ArrayList<>();
@@ -93,6 +99,29 @@ public class MainActivity extends AppCompatActivity {
         //Glide.with(this).load(strProfile).into(ivProfile);
 
     }
+
+
+    public void GetRoomData(HashMap<String,String> map){
+        Call<Void> call = retrofitInterface.executeMakeRoom(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    //로그인 성공시 할짓
+                    fragment2.showDialog();
+                } else if (response.code() == 404) {
+                    //화면 종료
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
     public void GetRoomData(){
         HashMap<String,String> map =  new HashMap<String,String>();
         map.put("id", strEmail);
@@ -169,9 +198,9 @@ public class MainActivity extends AppCompatActivity {
                         todo.add(response.body().get(i).getHashMap());
                         Log.e("test",response.body().get(i).toString());
                     }
-                    Toast.makeText(context, "스와이프 해서 새로고침 하세요", Toast.LENGTH_LONG).show();
+                    ((Fragment1)fragment1).readToDo();
                 } else if (response.code() == 404) {
-                    Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -182,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void MakeRetrofit(){
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -193,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+         fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
         if (currentFragment != null) {
@@ -203,12 +233,14 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
             if (id == R.id.navigation_1) {
-                fragment = new Fragment1();
+                fragment1 = new Fragment1();
+                fragment = fragment1;
             } else if (id == R.id.navigation_2){
-                fragment = new Fragment2();
+                fragment2 = new Fragment2();
+                fragment = fragment2;
             } else if (id == R.id.navigation_3) {
-                fragment = new Fragment3();
-                fragment3 = fragment;
+                fragment3 = new Fragment3();
+                fragment = fragment3;
             }
             fragmentTransaction.add(R.id.content_layout, fragment, tag);
         } else {
@@ -225,11 +257,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public ArrayList<HashMap<String, String>> idListArray(){
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
-        for(int i =0 ;i< IdLists.size();i++){
-            tempHash.add(IdLists.get(i).getHashMap());
+        try {
+            for(int i =0 ;i< IdLists.size();i++){
+                tempHash.add(IdLists.get(i).getHashMap());
+            }
+        }catch(NullPointerException e){
+            Toast.makeText(context, "새로운 방을 만들어주세요~", Toast.LENGTH_LONG).show();
         }
+
         return tempHash;
     }
+
 
     public ArrayList<HashMap<String, String>> getMachIDtoRoomList() {
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
@@ -244,54 +282,39 @@ public class MainActivity extends AppCompatActivity {
     }
     //여기서부터 현지 임의 DB
 
-    public ArrayList<HashMap<String, String>> roomtempArray(){
-        ArrayList<HashMap<String, String>> room = new ArrayList<>();
-        HashMap<String, String> hash = new HashMap<>();
-        hash.put("roomName", "다이어트");
-        hash.put("id", "hji0104@naver.com");
-        hash.put("guest1", "hji0103@naver.com");
-        hash.put("guest2", "hji0102@naver.com");
-        hash.put("guest3", "hji0101@naver.com");
-        hash.put("fine", "1");
-        hash.put("totalFine1", "1");
-        hash.put("totalFine2", "1");
-        hash.put("totalFine3", "1");
-        hash.put("totalFine4", "1");
-        hash.put("startDay", "21.07.10");
-        hash.put("endDay", "21.07.23");
-        room.add(hash);
-        return room;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap tempBitmap = (Bitmap) extras.get("data");
+            bitmapString = bitmapConverter.BitmapToString(tempBitmap);
+            ((Fragment1)fragment1).getPosition(itemPosition, bitmapString);
+            ((Fragment1)fragment1).readToDo();
+            Toast.makeText(context, "새로고침 하여 확인해 주세요", Toast.LENGTH_LONG).show();
+        }
     }
-    public ArrayList<HashMap<String, String>> idArray(){
 
-        ArrayList<HashMap<String, String>> idArray = new ArrayList<>();
-
-        IDListData id1 = new IDListData("hji0104@naver.com","이현지",Integer.toString(R.drawable.customer) );
-        IDListData id2 = new IDListData("hji0103@naver.com","이현지3",Integer.toString(R.drawable.customer) );
-        IDListData id3 = new IDListData("hji0102@naver.com","이현지2",Integer.toString(R.drawable.customer) );
-        IDListData id4 = new IDListData("hji0101@naver.com","이현지1",Integer.toString(R.drawable.customer) );
-        idArray.add(id1.getHashMap());
-        idArray.add(id2.getHashMap());
-        idArray.add(id3.getHashMap());
-        idArray.add(id4.getHashMap());
-
-        return idArray;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult");
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+        }
     }
-    public ArrayList<HashMap<String, String>> todotempArray(){
+    public void setItemIndex(int itemIndex) {
+        this.itemPosition = itemIndex;
+    }
 
-        ArrayList<HashMap<String, String>> todoArray = new ArrayList<>();
+    public void setToDo(ArrayList<HashMap<String, String>> todo) {
+        this.todo = todo;
+    }
 
-        TodoData td1 = new TodoData("hji0104@naver.com","다이어트","21.07.13",R.drawable.customer,"밥먹" );
-        TodoData td11 = new TodoData("hji0104@naver.com","다이어트","21.07.14",R.drawable.customer,"밥먹기" );
-        TodoData td2 = new TodoData("hji0103@naver.com","다이어트","21.07.14",R.drawable.customer,"내일" );
-        TodoData td3 = new TodoData("hji0102@naver.com","다이어트","21.07.15",R.drawable.customer, "아아아" );
-        TodoData td4 = new TodoData("hji0101@naver.com","다이어트","21.07.18",R.drawable.customer, "으으ㅡ으" );
-        todoArray.add(td1.getHashMap());
-        todoArray.add(td11.getHashMap());
-        todoArray.add(td2.getHashMap());
-        todoArray.add(td3.getHashMap());
-        todoArray.add(td4.getHashMap());
-
-        return todoArray;
+    // endDay, id를 더 넣어줘야함
+    public void setRoom(HashMap<String, String> hash) {
+        hash.put("id",strEmail);
+        hash.put("endDay","25.20.20");
+        GetRoomData(hash);
     }
 }

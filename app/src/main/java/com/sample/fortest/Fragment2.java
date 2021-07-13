@@ -32,15 +32,13 @@ public class Fragment2 extends Fragment {
     View view;
     String gusetName= "";
     ArrayList<String> guestList;
+    ArrayList<HashMap<String, String>> room;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_2, container, false);
-        ArrayList<HashMap<String, String>> room = ((MainActivity)getActivity()).getMachIDtoRoomList();
-
-        GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+         room = ((MainActivity)getActivity()).getMachIDtoRoomList();
 
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog);
@@ -52,12 +50,18 @@ public class Fragment2 extends Fragment {
                 showDialog(); // 아래 showDialog() 함수 호출
             }
         });
-
+        refresh();
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
-        gridView.setAdapter(adapter) ;
 
         return view;
+    }
+
+    public void refresh(){
+
+        GridView gridView = (GridView) view.findViewById(R.id.gridView);
+        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+        gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){
         String st = "";
@@ -81,17 +85,15 @@ public class Fragment2 extends Fragment {
         // *주의할 점: findViewById()를 쓸 때는 -> 앞에 반드시 다이얼로그 이름을 붙여야 한다.
 
         ArrayList<HashMap<String, String>> array = ((MainActivity)getActivity()).idListArray();
-        HashMap<String, String> roomhash = new HashMap<>();
         guestList = new ArrayList<>();
         gusetName = "";
-
-
         //mail 버튼
         EditText editText = dialog.findViewById(R.id.guestMail);
-
+        EditText roomName = dialog.findViewById(R.id.roomName);
+        EditText fine = dialog.findViewById(R.id.fine);
+        EditText date = dialog.findViewById(R.id.editTextDate);
         Button gBtn = dialog.findViewById(R.id.guestButton);
-        Button aBtn = dialog.findViewById(R.id.addButton);
-
+        Button addBtn = dialog.findViewById(R.id.addButton);
         TextView tx = dialog.findViewById(R.id.guestList);
 
         EditText editText1 = dialog.findViewById(R.id.edit_roomName);
@@ -104,7 +106,7 @@ public class Fragment2 extends Fragment {
                 // 원하는 기능 구현
                 String input = editText.getText().toString().replace(" ", "");
                 boolean inData = false;
-                if(!guestList.contains(input)) {
+                if (!guestList.contains(input)) {
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).get("id").equals(input)) {
                             guestList.add(input);
@@ -119,19 +121,22 @@ public class Fragment2 extends Fragment {
             }
         });
 
-        aBtn.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                int gcount = guestList.size();
-                String guest = "guest";
-                for(int i = 0; i<gcount; i++){
-                    roomhash.put(guest+Integer.toString(i+1),guestList.get(i));
+                // 원하는 기능 구현
+                HashMap<String, String> hash = new HashMap<String, String>();
+                hash.put("roomName", String.valueOf(roomName.getText()));
+                for(int i = 0; i < guestList.size();i++) {
+                    String guestindex = "guests" + String.valueOf(i+1);
+                    hash.put(guestindex,guestList.get(i));
                 }
-                roomhash.put("RoomName",editText1.getText().toString());
-                String startday = editText2.getText().toString();
-                roomhash.put("startDay",startday);
-                roomhash.put("fine",editText3.getText().toString());
-                array.add(roomhash);
+                hash.put("fine", String.valueOf(fine.getText()));
+                //데이트 바꿔주는 작업
+                String datestring = String.valueOf(date.getText()).insert(4,".").insert(2,".");
+                hash.put("startDay", datestring);
+                //endTime, endDay,id를 더 넣어줘야함
+                ((MainActivity)getActivity()).setRoom(hash);
                 resetText();
                 tx.setText("");
                 dialog.dismiss();
