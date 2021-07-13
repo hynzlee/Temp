@@ -11,11 +11,11 @@
     <ImageButton
         android:id="@+id/imgButton"
         android:visibility="visible"
+        android:src="@drawable/buttonimg"
         android:background="#FAFAFA"
-        android:src="@drawable/button1"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:scaleType="center"/>
+        android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/tdTitle"
         android:layout_marginLeft="150dp"

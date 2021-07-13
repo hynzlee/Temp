@@ -25,14 +25,16 @@
 
         <ImageButton
             android:id="@+id/roomaddBut"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="bottom|end"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
             android:background="#FAFAFA"
             android:clickable="true"
             android:onClick="DialogClick"
             android:scaleType="fitXY"
-            android:src="@drawable/button1"/>
+            android:src="@drawable/buttonimg"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

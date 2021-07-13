@@ -12,18 +12,18 @@
         android:scaleType="fitXY"
         android:src="@drawable/schedule"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler3"
+
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:scrollbars="horizontal" />
+        android:layout_height="wrap_content"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list3">
+
     </ListView>
+
 
 </LinearLayout>

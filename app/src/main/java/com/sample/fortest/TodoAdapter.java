@@ -140,8 +140,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
         viewHolder.getTextView().setText(title);
         viewHolder.getEditText().setText(todo);
         String temp =  localDataSet.get(position).get("photo");
-        if(localDataSet.size() !=0)
-            Log.e("todo",localDataSet.get(0).get("photo"));
         if(temp != null){
             Bitmap bm = bc.StringToBitmap(temp);
             if(bm != null) {
@@ -149,8 +147,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
                 button.setImageBitmap(bm);
                 button.setScaleType(ImageButton.ScaleType.CENTER_CROP);
             }
-        }else{
-            viewHolder.getImageButton().setImageResource(R.drawable.white);
         }
         viewHolder.getImageButton().setOnClickListener(new View.OnClickListener() {
             @Override

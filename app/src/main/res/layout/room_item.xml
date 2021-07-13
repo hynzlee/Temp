@@ -5,11 +5,11 @@
 
     <ImageButton
         android:id="@+id/groupImage"
+        android:clickable="true"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:clickable="true"
-        android:scaleType="fitXY"
         android:background="#FAFAFA"
+        android:scaleType="fitXY"
         android:src="@drawable/my_room_group">
 
     </ImageButton>
