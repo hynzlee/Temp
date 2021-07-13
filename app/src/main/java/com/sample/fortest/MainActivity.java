@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         todo.add(response.body().get(i).getHashMap());
                         Log.e("test",response.body().get(i).toString());
                     }
-                    Toast.makeText(context, "todo 받기 성", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "스와이프 해서 새로고침 하세요", Toast.LENGTH_LONG).show();
                 } else if (response.code() == 404) {
                     Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_LONG).show();
                 }
@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
     }
+
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -171,8 +172,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList<HashMap<String, String>> todoArray(){
-//        todo.add(new TodoData("jsuk10@naver.com","다이어트","2021.7.12", 0, "밥 반절만 먹기").getHashMap());
-//        todo.add(new TodoData("jsuk10@naver.com","공부하기","2021.7.10", 0, "수학의 정석 한 장 풀기").getHashMap());
         return todo;
     }
     public ArrayList<HashMap<String, String>> RoomArray(){

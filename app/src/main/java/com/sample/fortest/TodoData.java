@@ -9,21 +9,21 @@ public class TodoData {
     private String title;
     private String date;
     private int photo;
-    private String todo;
+    private String toDo;
 
     public TodoData(String id,String title, String date, int photo, String todo) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.photo = photo;
-        this.todo = todo;
+        this.toDo = todo;
     }
 
     public TodoData(HashMap<String, String> map){
         id = map.get("id");
         title = map.get("title");
         date = map.get("date");
-        todo = map.get("todo");
+        toDo = map.get("toDo");
     }
 
     public String getTitle() {
@@ -50,11 +50,11 @@ public class TodoData {
         this.photo = photo;
     }
     public String getTodo() {
-        return todo;
+        return toDo;
     }
 
     public void setTodo(String todo) {
-        this.todo = todo;
+        this.toDo = todo;
     }
 
     public HashMap<String, String> getHashMap(){
@@ -63,11 +63,11 @@ public class TodoData {
         map.put("title", title);
         map.put("date", date);
         map.put("photo", Integer.toString(photo));
-        map.put("todo", todo);
+        map.put("toDo", toDo);
         return map;
     }
     @Override
     public String toString(){
-        return title;
+        return title + "\n" +toDo;
     }
 }

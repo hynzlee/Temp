@@ -1,6 +1,7 @@
 package com.sample.fortest;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,16 +39,18 @@ import java.util.HashMap;
 import static android.app.Activity.RESULT_OK;
 
 public class Fragment1 extends Fragment{
-    ArrayList<HashMap<String, String>> todo;
+    private ArrayList<HashMap<String, String>> todo;
     private static final String TAG = "exception 정수형 바꾸기";
-    ImageButton imageButton;
+    private ImageButton imageButton;
     //ImageView iv_photo;
-    final static int TAKE_PICTURE = 1;
-    String mCurrentPhotoPath;
-    final static int REQUEST_TAKE_PHOTO = 1;
-    TextView camera;
-    View view;
+    private final static int TAKE_PICTURE = 1;
+    private String mCurrentPhotoPath;
+    private final static int REQUEST_TAKE_PHOTO = 1;
+    private TextView camera;
+    private View view;
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TodoAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,17 @@ public class Fragment1 extends Fragment{
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_1, container, false);
         //todo가 담긴 data 받아오기
-        swipeRefreshLayout = view.findViewById(R.id.tab1_swipe);
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout = view.findViewById(R.id.tab1_swife);
+        recyclerView = view.findViewById(R.id.recycler1) ;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
+        todo = new ArrayList<HashMap<String, String>>();
+        todo = ((MainActivity)getActivity()).todoArray();
+        // 리사이클러뷰에 TodoAdapter 객체 지정.
+        readToDo();
+
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         readToDo();
@@ -71,14 +83,17 @@ public class Fragment1 extends Fragment{
         );
         return view;
     }
+
+    public void updateTest(){
+
+    }
+
     public void readToDo(){
         todo = ((MainActivity)getActivity()).todoArray();
-        RecyclerView recyclerView = view.findViewById(R.id.recycler1) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext())) ;
-
-        // 리사이클러뷰에 TodoAdapter 객체 지정.
-        TodoAdapter adapter = new TodoAdapter(todo) ;
+        adapter = new TodoAdapter(todo, ((MainActivity)getActivity()).strEmail);
+        adapter.SetToDo(todo);
         recyclerView.setAdapter(adapter) ;
+
     }
 
 }
