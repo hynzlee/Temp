@@ -24,6 +24,9 @@ public interface RetrofitInterface {
     @POST("/setToDoPhoto")
     Call<Void> executeSetPhoto (@Body HashMap<String, String> map);
 
+    @POST("/getAllRoomData")
+    Call<ArrayList<RoomData>> getAllRoomData (@Body HashMap<String, String> map);
+
     @POST("/getRoombyRoomName")
     Call<RoomData> executegetRoom (@Body HashMap<String, String> map);
 

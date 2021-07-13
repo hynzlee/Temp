@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> todo;
     //아이디 담겨 있는 List
     ArrayList<IDListData> IdLists;
+    ArrayList<RoomData> machIDtoRoomList;
+
+
     Context context;
     IDListData ID;
     @Override
@@ -83,10 +86,33 @@ public class MainActivity extends AppCompatActivity {
         SetLoginData();
         GetTodoData();
         GetIDListData();
+        GetRoomData();
         //프로필 사진 url을 사진으로 보여줌
         //Glide.with(this).load(strProfile).into(ivProfile);
 
     }
+    public void GetRoomData(){
+        HashMap<String,String> map =  new HashMap<String,String>();
+        map.put("id", strEmail);
+        Call<ArrayList<RoomData>> call = retrofitInterface.getAllRoomData(map);
+        call.enqueue(new Callback<ArrayList<RoomData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<RoomData>> call, Response<ArrayList<RoomData>> response) {
+                if (response.code() == 200) {
+                    //로그인 성공시 할짓
+                    machIDtoRoomList = response.body();
+                } else if (response.code() == 404) {
+                    //화면 종료
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<RoomData>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void SetLoginData() {
         HashMap<String, String> loginHashMap = ID.getHashMap();
         Call<Void> call = retrofitInterface.executeKakakoLogin(loginHashMap);
@@ -106,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void GetIDListData() {
         Call<ArrayList<IDListData>> call = retrofitInterface.executeSignup(new HashMap<String,String>());
         call.enqueue(new Callback<ArrayList<IDListData>>() {
@@ -197,6 +224,14 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
         for(int i =0 ;i< IdLists.size();i++){
             tempHash.add(IdLists.get(i).getHashMap());
+        }
+        return tempHash;
+    }
+
+    public ArrayList<HashMap<String, String>> getMachIDtoRoomList() {
+        ArrayList<HashMap<String, String>> tempHash = new ArrayList<>();
+        for(int i =0 ;i< machIDtoRoomList.size();i++){
+            tempHash.add(machIDtoRoomList.get(i).getHashMap());
         }
         return tempHash;
     }

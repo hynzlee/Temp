@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RoomData {
+
+
     String roomName;
     String id;
     String guest1;
@@ -43,6 +45,20 @@ public class RoomData {
         this.startDay = startDay;
     }
 
+    public RoomData(String roomName, String id, String guest1, String guest2, String guest3, int fine, int totalFine1, int totalFine2, int totalFine3, int totalFine4, String startDay, String endDay) {
+        this.roomName = roomName;
+        this.id = id;
+        this.guest1 = guest1;
+        this.guest2 = guest2;
+        this.guest3 = guest3;
+        this.fine = fine;
+        this.totalFine1 = totalFine1;
+        this.totalFine2 = totalFine2;
+        this.totalFine3 = totalFine3;
+        this.totalFine4 = totalFine4;
+        this.startDay = startDay;
+        this.endDay = endDay;
+    }
 
     @Override
     public String toString(){
@@ -63,6 +79,8 @@ public class RoomData {
         map.put("totalFine3",Integer.toString(totalFine3));
         map.put("totalFine4",Integer.toString(totalFine4));
         map.put("startDay", startDay);
+        if(endDay != null)
+            map.put("startDay", startDay);
 
 
         return map;
