@@ -22,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -41,12 +43,6 @@ import static android.app.Activity.RESULT_OK;
 public class Fragment1 extends Fragment{
     private ArrayList<HashMap<String, String>> todo;
     private static final String TAG = "exception 정수형 바꾸기";
-    private ImageButton imageButton;
-    //ImageView iv_photo;
-    private final static int TAKE_PICTURE = 1;
-    private String mCurrentPhotoPath;
-    private final static int REQUEST_TAKE_PHOTO = 1;
-    private TextView camera;
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -70,9 +66,6 @@ public class Fragment1 extends Fragment{
         todo = ((MainActivity)getActivity()).todoArray();
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         readToDo();
-
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -83,17 +76,28 @@ public class Fragment1 extends Fragment{
         );
         return view;
     }
+    public void Refresh(){
+        readToDo();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
 
-    public void updateTest(){
+    public void getPosition(int itemPosition, String bitmapString){
+        HashMap<String, String> temptodo = todo.get(itemPosition);
+        temptodo.put("photo",bitmapString);
+        todo.set(itemPosition ,temptodo);
 
+        ((MainActivity)getActivity()).setToDo(todo);
     }
 
     public void readToDo(){
         todo = ((MainActivity)getActivity()).todoArray();
         adapter = new TodoAdapter(todo, ((MainActivity)getActivity()).strEmail);
+        adapter.setContext(view.getContext());
         adapter.SetToDo(todo);
+        adapter.SetFragment(this);
+        adapter.setMainActivity((MainActivity)getActivity());
         recyclerView.setAdapter(adapter) ;
-
     }
 
 }

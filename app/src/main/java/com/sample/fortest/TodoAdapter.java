@@ -1,17 +1,32 @@
 package com.sample.fortest;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -20,6 +35,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.app.PendingIntent.getActivity;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
  {
      private Retrofit retrofit;
@@ -27,15 +45,38 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
      private String BASE_URL = "http://192.249.18.163:80";
      private ArrayList<HashMap<String, String>> localDataSet;
      private String id;
-    /**
+     private Context context;
+     int REQUEST_IMAGE_CAPTURE = 1;
+     String mCurrentPhotoPath;
+     final static int TAKE_PICTURE = 1;
+     static final int REQUEST_TAKE_PHOTO = 1;
+     private static final int REQUEST_CAMERA = 100;
+     BitmapConverter bc;
+     Fragment1 fragment;
+
+     public void setMainActivity(MainActivity mainActivity) {
+         this.mainActivity = mainActivity;
+     }
+
+     private MainActivity mainActivity;
+
+     public void setContext(Context context) {
+         this.context = context;
+     }
+
+     public void SetFragment(Fragment1 fragment1) {
+         fragment = fragment1;
+     }
+
+     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
         private TextView editText;
-        private ImageView imageView;
-        private Button imageEditButton, textEditButton;
+        private ImageButton imageEditButton;
+        private Button  textEditButton;
 
 
 
@@ -44,8 +85,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
             // Define click listener for the ViewHolder's View
             this.textView = (TextView) view.findViewById(R.id.tdTitle);
             this.editText = (TextView) view.findViewById(R.id.tdEdit);
-            this.imageView = (ImageView) view.findViewById(R.id.imgView);
-            this.imageEditButton = (Button) view.findViewById(R.id.button1_1);
+            this.imageEditButton = (ImageButton) view.findViewById(R.id.imgButton);
             this.textEditButton = (Button) view.findViewById(R.id.button1_2);
         }
 
@@ -57,9 +97,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
 
         public TextView getTextView() { return textView; }
 
-        public ImageView getImageView() {return imageView; }
-
-        public Button getImageEditButton() {return imageEditButton; }
+        public ImageButton getImageButton() {return imageEditButton; }
 
         public Button getTextEditButton() {return textEditButton; };
 
@@ -81,7 +119,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.todo_item, viewGroup, false);
-
+        bc = new BitmapConverter();
         MakeRetrofit();
         return new ViewHolder(view);
     }
@@ -101,6 +139,28 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
         String todo = localDataSet.get(position).get("toDo");
         viewHolder.getTextView().setText(title);
         viewHolder.getEditText().setText(todo);
+        String temp =  localDataSet.get(position).get("photo");
+        if(localDataSet.size() !=0)
+            Log.e("todo",localDataSet.get(0).get("photo"));
+        if(temp != null){
+            Bitmap bm = bc.StringToBitmap(temp);
+            if(bm != null) {
+                ImageButton button = viewHolder.getImageButton();
+                button.setImageBitmap(bm);
+                button.setScaleType(ImageButton.ScaleType.CENTER_CROP);
+            }
+        }else{
+            viewHolder.getImageButton().setImageResource(R.drawable.white);
+        }
+        viewHolder.getImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 카메라 앱을 여는 소스
+                sendTakePhotoIntent();
+                mainActivity.setItemIndex(position);
+                Log.e("text","camera");
+            }
+        });
         viewHolder.getTextEditButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +189,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
                 });
             }
         });
-        viewHolder.getImageView().setImageResource(R.drawable.white);
     }
 
 
@@ -137,8 +196,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        Log.e("todo", String.valueOf(localDataSet.size()));
+//        Log.e("todo", String.valueOf(localDataSet.size()));
         return localDataSet.size();
     }
+
+     private void sendTakePhotoIntent() {
+         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+         ((Activity)context).startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+     }
 
 }

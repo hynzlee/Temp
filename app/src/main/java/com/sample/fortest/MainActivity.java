@@ -49,14 +49,20 @@ public class MainActivity extends AppCompatActivity {
     //아이디 담겨 있는 List
     ArrayList<IDListData> IdLists;
     ArrayList<RoomData> machIDtoRoomList;
-
+    int REQUEST_IMAGE_CAPTURE = 1;
+    String bitmapString;
+    BitmapConverter bitmapConverter;
+    int itemPosition;
+    Fragment fragment1;
 
     Context context;
     IDListData ID;
+    FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initial
         super.onCreate(savedInstanceState);
+        bitmapConverter = new BitmapConverter();
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         todo = new ArrayList<>();
@@ -167,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
                         todo.add(response.body().get(i).getHashMap());
                         Log.e("test",response.body().get(i).toString());
                     }
-                    Toast.makeText(context, "스와이프 해서 새로고침 하세요", Toast.LENGTH_LONG).show();
+                    ((Fragment1)fragment1).readToDo();
                 } else if (response.code() == 404) {
-                    Toast.makeText(context, "Wrong Credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -191,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+         fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
         if (currentFragment != null) {
@@ -202,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         if (fragment == null) {
             if (id == R.id.navigation_1) {
                 fragment = new Fragment1();
+                fragment1 = fragment;
             } else if (id == R.id.navigation_2){
                 fragment = new Fragment2();
             } else if (id == R.id.navigation_3) {
@@ -245,4 +252,32 @@ public class MainActivity extends AppCompatActivity {
         return tempHash;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap tempBitmap = (Bitmap) extras.get("data");
+            bitmapString = bitmapConverter.BitmapToString(tempBitmap);
+            ((Fragment1)fragment1).getPosition(itemPosition, bitmapString);
+            ((Fragment1)fragment1).readToDo();
+            Toast.makeText(context, "새로고침 하여 확인해 주세요", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult");
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+            Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+        }
+    }
+    public void setItemIndex(int itemIndex) {
+        this.itemPosition = itemIndex;
+    }
+
+    public void setToDo(ArrayList<HashMap<String, String>> todo) {
+        this.todo = todo;
+    }
 }
