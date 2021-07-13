@@ -1,35 +1,24 @@
 package com.sample.fortest;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.bumptech.glide.Glide;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     //아이디 담겨 있는 List
     ArrayList<IDListData> IdLists;
     ArrayList<RoomData> machIDtoRoomList;
+
+    HashMap<String, String> getToDohash;
     int REQUEST_IMAGE_CAPTURE = 1;
     String bitmapString;
     BitmapConverter bitmapConverter;
@@ -68,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         todo = new ArrayList<>();
+        getToDohash = new HashMap<>();
         //Bottom Navigation
         mBottomNV = findViewById(R.id.nav_view);
         mBottomNV.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -80,28 +72,23 @@ public class MainActivity extends AppCompatActivity {
         mBottomNV.setSelectedItemId(R.id.navigation_1);
 
         //LoginActicity->MainActivity Intent 가져오기
-        //TextView tvNickname = findViewById(R.id.tvNickname);
-        //ImageView ivProfile = findViewById(R.id.ivProfile);
-        //TextView tvEmail = findViewById(R.id.tvEmail);
         Intent intent = getIntent();
         strNickname = intent.getStringExtra("name");
         strProfile = intent.getStringExtra("profile");
         strEmail = intent.getStringExtra("email");
         ID =  new IDListData(strEmail,strNickname,strProfile);
-        //tvNickname.setText(strNickname);
-        //tvEmail.setText(strEmail);
         MakeRetrofit();
         SetLoginData();
         GetTodoData();
         GetIDListData();
-        GetRoomData();
+        MakeRoomData();
         //프로필 사진 url을 사진으로 보여줌
         //Glide.with(this).load(strProfile).into(ivProfile);
 
     }
 
 
-    public void GetRoomData(HashMap<String,String> map){
+    public void MakeRoomData(HashMap<String,String> map){
         Call<Void> call = retrofitInterface.executeMakeRoom(map);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -121,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    public void GetRoomData(){
+    public void MakeRoomData(){
         HashMap<String,String> map =  new HashMap<String,String>();
         map.put("id", strEmail);
         Call<ArrayList<RoomData>> call = retrofitInterface.getAllRoomData(map);
@@ -153,7 +139,27 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     //로그인 성공시 할짓
                 } else if (response.code() == 404) {
-                       //화면 종료
+                    //화면 종료
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void SetToDoImage(int index) {
+        HashMap<String, String> todoList = todo.get(index);
+        Call<Void> call = retrofitInterface.executeSetPhoto(todoList);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    //로그인 성공시 할짓
+                } else if (response.code() == 404) {
+                    //화면 종료
                 }
             }
             @Override
@@ -186,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetTodoData(){
-        HashMap<String, String> getToDohash = new HashMap<>();
         getToDohash.put("id", strEmail);
         Call<ArrayList<TodoData>> call = retrofitInterface.execiteToDo(getToDohash);
         call.enqueue(new Callback<ArrayList<TodoData>>() {
@@ -219,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
     }
+
+
 
     private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
@@ -253,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList<HashMap<String, String>> todoArray(){
+        Log.e("err","err");
         return todo;
     }
     public ArrayList<HashMap<String, String>> idListArray(){
@@ -261,9 +269,7 @@ public class MainActivity extends AppCompatActivity {
             for(int i =0 ;i< IdLists.size();i++){
                 tempHash.add(IdLists.get(i).getHashMap());
             }
-        }catch(NullPointerException e){
-            Toast.makeText(context, "새로운 방을 만들어주세요~", Toast.LENGTH_LONG).show();
-        }
+        }catch(NullPointerException e){ }
 
         return tempHash;
     }
@@ -290,7 +296,8 @@ public class MainActivity extends AppCompatActivity {
             Bitmap tempBitmap = (Bitmap) extras.get("data");
             bitmapString = bitmapConverter.BitmapToString(tempBitmap);
             ((Fragment1)fragment1).getPosition(itemPosition, bitmapString);
-            ((Fragment1)fragment1).readToDo();
+            SetToDoImage(itemPosition);
+//            ((Fragment1)fragment1).readToDo();
             Toast.makeText(context, "새로고침 하여 확인해 주세요", Toast.LENGTH_LONG).show();
         }
     }
@@ -314,7 +321,6 @@ public class MainActivity extends AppCompatActivity {
     // endDay, id를 더 넣어줘야함
     public void setRoom(HashMap<String, String> hash) {
         hash.put("id",strEmail);
-        hash.put("endDay","25.20.20");
-        GetRoomData(hash);
+        MakeRoomData(hash);
     }
 }

@@ -8,10 +8,10 @@ public class TodoData {
     private String id;
     private String title;
     private String date;
-    private int photo;
+    private String photo;
     private String toDo;
 
-    public TodoData(String id,String title, String date, int photo, String todo) {
+    public TodoData(String id,String title, String date, String photo, String todo) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -42,11 +42,11 @@ public class TodoData {
         this.date = date;
     }
 
-    public int getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
     public String getTodo() {
@@ -62,7 +62,7 @@ public class TodoData {
         map.put("id", id);
         map.put("title", title);
         map.put("date", date);
-        map.put("photo", Integer.toString(photo));
+        map.put("photo", photo);
         map.put("toDo", toDo);
         return map;
     }
