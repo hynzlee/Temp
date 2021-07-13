@@ -1,5 +1,6 @@
 package com.sample.fortest;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +24,15 @@ public class DateUtil {
         //년 더하기
         cal.add(Calendar.MONTH, m); //년 더하기
         cal.add(Calendar.DATE, d); //년 더하기
+        return format.format(cal.getTime());
+    }
+
+    public static String getDate(String dt, int d) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
+        Calendar cal = Calendar.getInstance();
+        Date date = format.parse(dt);
+        cal.setTime(date);
+        cal.add(Calendar.DATE, d);
         return format.format(cal.getTime());
     }
 }

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Fragment2 extends Fragment {
     Dialog dialog;
     View view;
     String gusetName= "";
+    DateUtil dateUtil;
     ArrayList<String> guestList;
     ArrayList<HashMap<String, String>> room;
     @Override
@@ -42,7 +44,7 @@ public class Fragment2 extends Fragment {
 
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog);
-
+        dateUtil = new DateUtil();
         button = view.findViewById(R.id.roomaddBut);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +72,9 @@ public class Fragment2 extends Fragment {
         tx.setText(st);
     }
     public void resetText(){
-        EditText editText1 = dialog.findViewById(R.id.edit_roomName);
-        EditText editText2 = dialog.findViewById(R.id.edit_fine);
-        EditText editText3 = dialog.findViewById(R.id.edit_textDate);
-        editText1.setText("");
-        editText2.setText("");
-        editText3.setText("");
+        ((EditText)dialog.findViewById(R.id.roomName)).setText("");
+        ((EditText)dialog.findViewById(R.id.fine)).setText("");
+        ((EditText)dialog.findViewById(R.id.edit_textDate)).setText("");
     }
 
     public void showDialog(){
@@ -91,14 +90,10 @@ public class Fragment2 extends Fragment {
         EditText editText = dialog.findViewById(R.id.guestMail);
         EditText roomName = dialog.findViewById(R.id.roomName);
         EditText fine = dialog.findViewById(R.id.fine);
-        EditText date = dialog.findViewById(R.id.editTextDate);
+        EditText date = dialog.findViewById(R.id.edit_textDate);
         Button gBtn = dialog.findViewById(R.id.guestButton);
         Button addBtn = dialog.findViewById(R.id.addButton);
         TextView tx = dialog.findViewById(R.id.guestList);
-
-        EditText editText1 = dialog.findViewById(R.id.edit_roomName);
-        EditText editText2 = dialog.findViewById(R.id.edit_fine);
-        EditText editText3 = dialog.findViewById(R.id.edit_textDate);
 
         gBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +128,13 @@ public class Fragment2 extends Fragment {
                 }
                 hash.put("fine", String.valueOf(fine.getText()));
                 //데이트 바꿔주는 작업
-                String datestring = String.valueOf(date.getText()).insert(4,".").insert(2,".");
+                String datestring = String.valueOf(date.getText());
+                datestring = datestring.substring(0, 2) + "." + datestring.substring(2, 4) + "."+datestring.substring(4, 6);
+                try {
+                    hash.put("endDay", dateUtil.getDate(datestring,14));
+                } catch (ParseException e) {
+                    hash.put("endDay", "99.99.99");
+                }
                 hash.put("startDay", datestring);
                 //endTime, endDay,id를 더 넣어줘야함
                 ((MainActivity)getActivity()).setRoom(hash);
