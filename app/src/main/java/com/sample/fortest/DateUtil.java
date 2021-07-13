@@ -1,5 +1,7 @@
 package com.sample.fortest;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +33,8 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yy.MM.dd");
         Calendar cal = Calendar.getInstance();
         Date date = format.parse(dt);
+        Log.e("text",date.toString());
+        Log.e("text",dt);
         cal.setTime(date);
         cal.add(Calendar.DATE, d);
         return format.format(cal.getTime());

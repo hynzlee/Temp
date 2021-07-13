@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         strNickname = intent.getStringExtra("name");
         strProfile = intent.getStringExtra("profile");
         strEmail = intent.getStringExtra("email");
-        ID =  new IDListData(strNickname,strEmail,strProfile);
+        ID =  new IDListData(strEmail,strNickname,strProfile);
         //tvNickname.setText(strNickname);
         //tvEmail.setText(strEmail);
         MakeRetrofit();
