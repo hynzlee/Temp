@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     for(int i = 0;i<response.body().size();i++){
                         todoList.add(response.body().get(i).getHashMap());
                     }
+                    Log.e("size", String.valueOf(todoList.size()));
                     (fragment3).setData(todoList,roomdata);
                 } else if (response.code() == 404) {
                     Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
