@@ -39,6 +39,7 @@ public class Fragment2 extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     GridView gridView;
     RoomAdapter adapter;
+    ArrayList<IDListData> idlists;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +79,8 @@ public class Fragment2 extends Fragment {
     public void refresh(){
         gridView = (GridView) view.findViewById(R.id.gridView);
         adapter = new RoomAdapter(getContext(), room,(MainActivity)getActivity());
+        if(idlists.size() != 0)
+        adapter.SetImage(idlists);
         gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){
@@ -124,8 +127,6 @@ public class Fragment2 extends Fragment {
                             SetText(tx, guestList);
                             editText.setText("");
                             //Toast.makeText(getContext(), input, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "No User", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -166,5 +167,10 @@ public class Fragment2 extends Fragment {
         for(int i = 0 ; i < machIDtoRoomList.size();i++) {
             room.add(machIDtoRoomList.get(i).getHashMap());
         }
+    }
+
+    public ArrayList<IDListData> setIDList(ArrayList<IDListData> idlists){
+        this.idlists =  idlists;
+        return idlists;
     }
 }

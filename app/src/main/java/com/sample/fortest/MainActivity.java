@@ -181,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     //로그인 성공시 할짓
                     IdLists = response.body();
+                    if(fragment2==null)  fragment2 = new Fragment2();
+                    fragment2.setIDList(IdLists);
                     Log.e("id",IdLists.toString());
                 } else if (response.code() == 404) {
                     //화면 종료

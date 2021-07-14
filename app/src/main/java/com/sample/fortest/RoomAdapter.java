@@ -1,6 +1,7 @@
 package com.sample.fortest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,12 +64,15 @@ public class RoomAdapter extends ArrayAdapter {
         viewHolder.iv_image2 = (ImageView) convertView.findViewById(R.id.user2);
         viewHolder.iv_image3 = (ImageView) convertView.findViewById(R.id.user3);
         viewHolder.iv_image4 = (ImageView) convertView.findViewById(R.id.user4);
+//        ((IDListData)list.get(position));
 
         //HashMap<String, String> map = setImageHash(list);
 
         final HashMap<String, String> room = (HashMap<String, String>)list.get(position);
-        //Glide.with(getContext()).load(room.get("id"))
-
+        if(imagemap.get("id") != null) {
+            Log.e("isnull?", imagemap.get("id"));
+            Glide.with(getContext()).load(imagemap.get("id")).into(viewHolder.iv_image1);
+        }
         // Icon 설정
         /*
         HashMap<String, String> map = setImageHash(room);
@@ -95,6 +99,13 @@ public class RoomAdapter extends ArrayAdapter {
 
 
         return convertView;
+    }
+
+    public void SetImage(ArrayList<IDListData> idlist){
+        if (imagemap==null) imagemap = new HashMap<String, String>();
+        for(int i = 0 ; i <idlist.size();i++){
+           imagemap.put(idlist.get(i).getId(),idlist.get(i).getPhoto());
+        }
     }
     /*
     public HashMap<String, String> setImageHash(ArrayList<> list){
