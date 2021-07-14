@@ -47,7 +47,6 @@ public class Fragment2 extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.tab2_swipe);
 
-
         room = ((MainActivity)getActivity()).getMachIDtoRoomList();
 
         dialog = new Dialog(getContext());
@@ -69,6 +68,10 @@ public class Fragment2 extends Fragment {
                 }
             }
         );
+
+
+
+
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
 

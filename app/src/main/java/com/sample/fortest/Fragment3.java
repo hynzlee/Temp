@@ -30,6 +30,7 @@ public class Fragment3 extends Fragment {
     ContentAdapter contentAdapter;
     Button button;
     String clickDay;
+    HashMap<String, String> rommHashMap;
 
     private Intent intent;
     @Override
@@ -38,6 +39,11 @@ public class Fragment3 extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_3, container, false);
 
+        //현지 임의 데이
+        //ArrayList<HashMap<String, String>> roomArray = roomArray();
+        //ArrayList<HashMap<String, String>> todoArray = roomArray();
+        //ArrayList<String> emailArray = new ArrayList<>();
+        //HashMap<String, String> hash = roomArray.get(0);
 
         CalendarView  calendar = (CalendarView) view.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -56,6 +62,8 @@ public class Fragment3 extends Fragment {
 
         return view;
     }
-
+    public void setHash(HashMap<String, String> map){
+        this.rommHashMap = map;
+    }
 
 }

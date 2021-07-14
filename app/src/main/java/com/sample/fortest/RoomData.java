@@ -80,10 +80,7 @@ public class RoomData {
         map.put("totalFine4",Integer.toString(totalFine4));
         map.put("startDay", startDay);
         if(endDay != null)
-            map.put("startDay", startDay);
-
-
+            map.put("endDay", endDay);
         return map;
     }
-
 }
