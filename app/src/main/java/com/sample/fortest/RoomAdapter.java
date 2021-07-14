@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,7 @@ public class RoomAdapter extends ArrayAdapter {
     private Context context;
     private List list;
     private MainActivity ma;
-
+    private HashMap<String,String> imagemap;
 
     class ViewHolder {
         public ImageButton iv_image, iv_button;
@@ -62,10 +64,18 @@ public class RoomAdapter extends ArrayAdapter {
         viewHolder.iv_image3 = (ImageView) convertView.findViewById(R.id.user3);
         viewHolder.iv_image4 = (ImageView) convertView.findViewById(R.id.user4);
 
+        //HashMap<String, String> map = setImageHash(list);
+
         final HashMap<String, String> room = (HashMap<String, String>)list.get(position);
+        //Glide.with(getContext()).load(room.get("id"))
 
         // Icon 설정
-        //viewHolder.ivtest_image1.setImageResource(room.get(""));
+        /*
+        HashMap<String, String> map = setImageHash(room);
+        int count = map.size();
+        for (int i = 0; i<count; i++){
+            viewHolder.iv_image1.setImageResource(map.get(map.get()));
+        }*/
 
         // Name 설정
         viewHolder.tv_1.setText(room.get("roomName"));
@@ -82,7 +92,17 @@ public class RoomAdapter extends ArrayAdapter {
         });
 
 
+
+
         return convertView;
     }
+    /*
+    public HashMap<String, String> setImageHash(ArrayList<> list){
 
+        HashMap<String,String> idImagemap = new HashMap<>();
+        for(int i = 0 ; i < list.size();i++){
+            idImagemap.put((list.get(i)).get("id"),list.get(i).get("photo"));
+        }
+        return idImagemap;
+    }*/
 }

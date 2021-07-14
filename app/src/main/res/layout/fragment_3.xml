@@ -14,12 +14,16 @@
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="300dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="25dp"
+        android:id="@+id/clickDate"
+        android:gravity="center"
+        android:text="Date"
+        android:textSize="20dp"
+        android:padding="10dp"
         android:inputType="date"/>
 
     <include layout="@layout/day_item" />

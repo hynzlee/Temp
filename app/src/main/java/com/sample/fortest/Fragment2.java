@@ -69,9 +69,6 @@ public class Fragment2 extends Fragment {
             }
         );
 
-
-
-
         // 리사이클러뷰에 TodoAdapter 객체 지정.
         //RoomAdapter adapter = new RoomAdapter(room) ;
 
@@ -112,6 +109,7 @@ public class Fragment2 extends Fragment {
         Button gBtn = dialog.findViewById(R.id.guestButton);
         Button addBtn = dialog.findViewById(R.id.addButton);
         TextView tx = dialog.findViewById(R.id.guestList);
+
 
         gBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +166,5 @@ public class Fragment2 extends Fragment {
         for(int i = 0 ; i < machIDtoRoomList.size();i++) {
             room.add(machIDtoRoomList.get(i).getHashMap());
         }
-
     }
 }

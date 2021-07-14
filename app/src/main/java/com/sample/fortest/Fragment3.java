@@ -13,16 +13,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 public class Fragment3 extends Fragment {
-    TextView username1, username2, username3, username4;
+    TextView username1, username2, username3, username4, ClickData;
     TextView fine1, fine2, fine3, fine4;
     ImageView iv_1, iv_2, iv_3, iv_4;
     View view;
     String guest0, guest1, guest2, guest3;
-    ContentAdapter contentAdapter;
     Button button;
     String clickDay;
     HashMap<String, String> rommHashMap;
@@ -55,6 +56,9 @@ public class Fragment3 extends Fragment {
                 days += (dayOfMonth < 10)? "0"+Integer.toString(dayOfMonth) : Integer.toString(dayOfMonth);
                 Log.e("day",days);
 
+
+                ClickData = (TextView) view.findViewById(R.id.clickDate);
+
                 fine1 = (TextView) view.findViewById(R.id.Fine1);
                 fine2 = (TextView) view.findViewById(R.id.Fine2);
                 fine3 = (TextView) view.findViewById(R.id.Fine3);
@@ -69,6 +73,9 @@ public class Fragment3 extends Fragment {
                 iv_2 = (ImageView) view.findViewById(R.id.userImage2);
                 iv_3 = (ImageView) view.findViewById(R.id.userImage3);
                 iv_4 = (ImageView) view.findViewById(R.id.userImage4);
+
+                ClickData.setText(days);
+
 
             }
         });
