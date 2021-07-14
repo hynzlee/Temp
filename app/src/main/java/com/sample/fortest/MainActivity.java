@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     //로그인 성공시 할짓
-                    fragment2.showDialog();
+                    //룸리프래쉬
                 } else if (response.code() == 404) {
                     //화면 종료
                 }
@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     //로그인 성공시 할짓
                     machIDtoRoomList = response.body();
+                    if(fragment2 == null)
+                        fragment2 = new Fragment2();
+                    fragment2.setRoom(machIDtoRoomList);
                 } else if (response.code() == 404) {
                     //화면 종료
                 }
@@ -199,11 +202,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<TodoData>> call, Response<ArrayList<TodoData>> response) {
                 //call 다시 오는 내용값 send()에 들어가는 , response status() 안에 들어가는 값
                 if (response.code() == 200) {
+                    todo.clear();
                     for(int i = 0;i<response.body().size();i++){
                         todo.add(response.body().get(i).getHashMap());
                         Log.e("test",response.body().get(i).toString());
                     }
-                    ((Fragment1)fragment1).readToDo();
+                    ((Fragment1)fragment1).setAdapter(todo);
                 } else if (response.code() == 404) {
                     Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
                 }
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
+    public void BottomNavigate(int id) {  //BottomNavigation 페이지 변경
         String tag = String.valueOf(id);
         FragmentManager fragmentManager = getSupportFragmentManager();
          fragmentTransaction = fragmentManager.beginTransaction();
@@ -240,13 +244,13 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
         if (fragment == null) {
             if (id == R.id.navigation_1) {
-                fragment1 = new Fragment1();
+                fragment1 = (fragment1 == null) ? new Fragment1() : fragment1;
                 fragment = fragment1;
             } else if (id == R.id.navigation_2){
-                fragment2 = new Fragment2();
+                fragment2 = (fragment2 == null) ? new Fragment2() : fragment2;
                 fragment = fragment2;
             } else if (id == R.id.navigation_3) {
-                fragment3 = new Fragment3();
+                fragment3 = (fragment3 == null) ? new Fragment3() : fragment3;
                 fragment = fragment3;
             }
             fragmentTransaction.add(R.id.content_layout, fragment, tag);
@@ -260,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList<HashMap<String, String>> todoArray(){
-        Log.e("err","err");
         return todo;
     }
     public ArrayList<HashMap<String, String>> idListArray(){
@@ -297,7 +300,6 @@ public class MainActivity extends AppCompatActivity {
             bitmapString = bitmapConverter.BitmapToString(tempBitmap);
             ((Fragment1)fragment1).getPosition(itemPosition, bitmapString);
             SetToDoImage(itemPosition);
-//            ((Fragment1)fragment1).readToDo();
             Toast.makeText(context, "새로고침 하여 확인해 주세요", Toast.LENGTH_LONG).show();
         }
     }

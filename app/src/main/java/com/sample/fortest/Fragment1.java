@@ -70,6 +70,7 @@ public class Fragment1 extends Fragment{
                     @Override
                     public void onRefresh() {
                         readToDo();
+                        Refresh();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }
@@ -78,26 +79,26 @@ public class Fragment1 extends Fragment{
     }
     public void Refresh(){
         readToDo();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
     }
 
     public void getPosition(int itemPosition, String bitmapString){
         HashMap<String, String> temptodo = todo.get(itemPosition);
         temptodo.put("photo",bitmapString);
         todo.set(itemPosition ,temptodo);
-
         ((MainActivity)getActivity()).setToDo(todo);
     }
-
-    public void readToDo(){
-        todo = ((MainActivity)getActivity()).todoArray();
+    public void setAdapter(ArrayList<HashMap<String, String>> newtodo){
+        todo = newtodo;
         adapter = new TodoAdapter(todo, ((MainActivity)getActivity()).strEmail);
         adapter.setContext(view.getContext());
         adapter.SetToDo(todo);
         adapter.SetFragment(this);
         adapter.setMainActivity((MainActivity)getActivity());
         recyclerView.setAdapter(adapter) ;
+    }
+
+    public void readToDo(){
+        ((MainActivity)getActivity()).GetTodoData();
     }
 
 }

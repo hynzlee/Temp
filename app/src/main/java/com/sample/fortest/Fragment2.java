@@ -37,7 +37,8 @@ public class Fragment2 extends Fragment {
     ArrayList<String> guestList;
     ArrayList<HashMap<String, String>> room;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    GridView gridView;
+    RoomAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class Fragment2 extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    refresh();
+                    ((MainActivity)getActivity()).MakeRoomData();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
@@ -75,9 +76,8 @@ public class Fragment2 extends Fragment {
     }
 
     public void refresh(){
-
-        GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        RoomAdapter adapter = new RoomAdapter(getContext(), room);
+        gridView = (GridView) view.findViewById(R.id.gridView);
+        adapter = new RoomAdapter(getContext(), room);
         gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){
@@ -158,5 +158,13 @@ public class Fragment2 extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    public void setRoom(ArrayList<RoomData> machIDtoRoomList) {
+        room = new ArrayList<>();
+        for(int i = 0 ; i < machIDtoRoomList.size();i++) {
+            room.add(machIDtoRoomList.get(i).getHashMap());
+        }
+
     }
 }
