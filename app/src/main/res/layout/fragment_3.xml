@@ -11,19 +11,18 @@
         android:layout_height="50dp"
         android:scaleType="fitXY"
         android:src="@drawable/schedule"/>
-
-
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <ListView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list3">
+        android:padding="25dp"
+        android:inputType="date"/>
 
-    </ListView>
+    <include layout="@layout/day_item" />
 
 
 </LinearLayout>
