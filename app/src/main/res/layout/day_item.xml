@@ -67,28 +67,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="user1"
+            android:text=""
             android:id="@+id/User1"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="user2"
+            android:text=""
             android:id="@+id/User2"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="user3"
+            android:text=""
             android:id="@+id/User3"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="user4"
+            android:text=""
             android:id="@+id/User4"
             android:padding="15dp"
             android:layout_width="match_parent"
@@ -100,28 +100,28 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="fine1"
+            android:text=""
             android:id="@+id/Fine1"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="fine2"
+            android:text=""
             android:id="@+id/Fine2"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="fine3"
+            android:text=""
             android:id="@+id/Fine3"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="fine4"
+            android:text=""
             android:id="@+id/Fine4"
             android:padding="15dp"
             android:layout_width="match_parent"
