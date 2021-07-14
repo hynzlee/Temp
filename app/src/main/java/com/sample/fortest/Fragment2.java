@@ -80,7 +80,7 @@ public class Fragment2 extends Fragment {
 
     public void refresh(){
         gridView = (GridView) view.findViewById(R.id.gridView);
-        adapter = new RoomAdapter(getContext(), room);
+        adapter = new RoomAdapter(getContext(), room,(MainActivity)getActivity());
         gridView.setAdapter(adapter) ;
     }
     public void SetText(TextView tx, ArrayList arrayList){

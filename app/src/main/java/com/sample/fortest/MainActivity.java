@@ -205,9 +205,35 @@ public class MainActivity extends AppCompatActivity {
                     todo.clear();
                     for(int i = 0;i<response.body().size();i++){
                         todo.add(response.body().get(i).getHashMap());
-                        Log.e("test",response.body().get(i).toString());
                     }
                     ((Fragment1)fragment1).setAdapter(todo);
+                } else if (response.code() == 404) {
+                    Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<TodoData>> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void GetTodoDataByRoom(String RoomName,HashMap<String,String> roomdata){
+        HashMap<String,String> map = new HashMap<>();
+        ArrayList<HashMap<String,String>> todoList = new ArrayList<>();
+        map.put("title",RoomName);
+        Call<ArrayList<TodoData>> call = retrofitInterface.execiteToDobyRoom(map);
+        call.enqueue(new Callback<ArrayList<TodoData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<TodoData>> call, Response<ArrayList<TodoData>> response) {
+                //call 다시 오는 내용값 send()에 들어가는 , response status() 안에 들어가는 값
+                if (response.code() == 200) {
+                    for(int i = 0;i<response.body().size();i++){
+                        todoList.add(response.body().get(i).getHashMap());
+                    }
+                    (fragment3).setData(todoList,roomdata);
                 } else if (response.code() == 404) {
                     Toast.makeText(context, "ToDo가 없습니다.", Toast.LENGTH_LONG).show();
                 }
@@ -326,36 +352,10 @@ public class MainActivity extends AppCompatActivity {
         hash.put("id",strEmail);
         MakeRoomData(hash);
     }
-    /*
-    public void Fragmentchange(int id, int index){
-        if(fragment3 == null)
-            fragment3 = new Fragment3();
-        //fragment3.setHash(machIDtoRoomList.get(index).getHashMap());
 
-        String tag = String.valueOf(id);
-        if(fragmentManager == null)
-            fragmentManager = getSupportFragmentManager();
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-
-        Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
-        if (currentFragment != null) {
-            fragmentTransaction.hide(currentFragment);
-        }
-
-        Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        if (fragment == null) {
-            if (id == R.id.navigation_3) {
-                fragment3 = new Fragment3();
-                fragment = fragment3;
-            }
-        }
-        fragmentTransaction.setPrimaryNavigationFragment(fragment);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commitNow();
-
-
-        fragment3.setHash(machIDtoRoomList.get(index).getHashMap());
-
-    }*/
+    public void SetRoomPosition(HashMap<String, String> roomData) {
+        HashMap<String,ArrayList<TodoData>> map = new HashMap<>();
+        GetTodoDataByRoom(roomData.get("roomName"),roomData);
+        //쿼리 성공시 넘어가기, 이때 프3에 ToDOList랑 RoomData넘겨주기
+    }
 }

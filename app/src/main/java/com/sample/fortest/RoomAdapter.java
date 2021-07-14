@@ -26,6 +26,7 @@ public class RoomAdapter extends ArrayAdapter {
     private List list;
     private MainActivity ma;
 
+
     class ViewHolder {
         public ImageButton iv_image, iv_button;
         public Button button;
@@ -64,7 +65,7 @@ public class RoomAdapter extends ArrayAdapter {
         final HashMap<String, String> room = (HashMap<String, String>)list.get(position);
 
         // Icon 설정
-        //viewHolder.iv_image1.setImageResource(room.get(""));
+        //viewHolder.ivtest_image1.setImageResource(room.get(""));
 
         // Name 설정
         viewHolder.tv_1.setText(room.get("roomName"));
@@ -74,7 +75,8 @@ public class RoomAdapter extends ArrayAdapter {
                 //Toast.makeText(getContext().getApplicationContext(), "버튼을 눌렀습니다", Toast.LENGTH_LONG).show();
                 clickRoom = viewHolder.tv_1.getText().toString();
                 //Toast.makeText(getContext().getApplicationContext(), clickRoom, Toast.LENGTH_LONG).show();
-
+                HashMap<String,String> roomData = (HashMap<String, String>) list.get(position);
+                ma.SetRoomPosition(roomData);
                 ma.BottomNavigate(R.id.navigation_3);
             }
         });

@@ -21,27 +21,30 @@ public class Fragment3 extends Fragment {
     TextView fine1, fine2, fine3, fine4;
     ImageView iv_1, iv_2, iv_3, iv_4;
     View view;
-    String guest0,guest1,guest2,guest3;
+    String guest0, guest1, guest2, guest3;
     ContentAdapter contentAdapter;
     Button button;
     String clickDay;
     HashMap<String, String> rommHashMap;
+    ArrayList<TodoData> todoList;
+    Integer guestCount = 0;
+    //데이, 이미지값 들어
+    HashMap<String, String> hostHash;
+    HashMap<String, String> guest1Hash;
+    HashMap<String, String> guest2Hash;
+    HashMap<String, String> guest3Hash;
 
 
     private Intent intent;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_3, container, false);
 
-        //현지 임의 데이
-        //ArrayList<HashMap<String, String>> roomArray = roomArray();
-        //ArrayList<HashMap<String, String>> todoArray = roomArray();
-        //ArrayList<String> emailArray = new ArrayList<>();
-        //HashMap<String, String> hash = roomArray.get(0);
 
-        CalendarView  calendar = (CalendarView) view.findViewById(R.id.calendarView);
+        CalendarView calendar = (CalendarView) view.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -73,10 +76,31 @@ public class Fragment3 extends Fragment {
 
         return view;
     }
-    public void setHash(HashMap<String, String> map){
+
+    public void setHash(HashMap<String, String> map) {
         this.rommHashMap = map;
     }
 
-
-
+    public void setData(ArrayList<HashMap<String, String>> todoList, HashMap<String,String> roomdata) {
+        hostHash = new HashMap<>();
+        guest1Hash = new HashMap<>();
+        guest2Hash = new HashMap<>();
+        guest3Hash = new HashMap<>();
+        int maxindex = 0;
+        for (int i = 0; i < todoList.size(); i++) {
+            if (todoList.get(i).get("id") == roomdata.get("id")) {
+                hostHash.put(todoList.get(i).get("date"), todoList.get(i).get("photo"));
+            } else if (todoList.get(i).get("id") == roomdata.get("guest1") ){
+                maxindex = maxindex > 1 ? maxindex : 1;
+                guest1Hash.put(todoList.get(i).get("date"), todoList.get(i).get("photo"));
+            } else if (todoList.get(i).get("id") == roomdata.get("guest2")) {
+                maxindex = maxindex > 2 ? maxindex : 2;
+                guest2Hash.put(todoList.get(i).get("date"), todoList.get(i).get("photo"));
+            } else if (todoList.get(i).get("id") == roomdata.get("guest3")) {
+                maxindex = 3;
+                guest3Hash.put(todoList.get(i).get("date"), todoList.get(i).get("photo"));
+            }
+            this.rommHashMap = roomdata;
+        }
+    }
 }
